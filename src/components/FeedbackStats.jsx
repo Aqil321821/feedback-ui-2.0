@@ -1,6 +1,10 @@
-import { TbAlarmAverage } from 'react-icons/tb';
+import { useContext } from 'react';
 
-function FeedbackStats({ feedback }) {
+import FeedbackContext from '../context/FeedbackContext';
+
+function FeedbackStats() {
+  const { feedback } = useContext(FeedbackContext);
+
   //avg calculator
 
   let avg =

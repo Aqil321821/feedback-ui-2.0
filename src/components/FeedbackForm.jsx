@@ -1,14 +1,26 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import Card from './shared/Card';
 import Button from './shared/Button';
 import RatingSelect from './RatingSelect';
+import FeedbackContext from '../context/FeedbackContext';
 
-function FeedbackForm({handleAdd}) {
+function FeedbackForm() {
   const [text, setText] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [msg, setMsg] = useState('');
   const [rating, setRating] = useState(10);
+
+  const { addFeedback, feedbackEdit, updateFeedback } = useContext(FeedbackContext);
+
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      // console.log("object");
+      setBtnDisabled(false);
+      setText(feedbackEdit.item.text);
+      setRating(feedbackEdit.item.rating);
+    }
+  }, [feedbackEdit]);
 
   const handleChange = (e) => {
     const inputValue = e.target.value; // input value directly le rahe hain
@@ -33,8 +45,22 @@ function FeedbackForm({handleAdd}) {
         text,
         rating,
       };
-      handleAdd(newFeedback);
-      setText('')
+      if (feedbackEdit.edit === true) {
+        updateFeedback(feedbackEdit.item.id, newFeedback);
+        setBtnDisabled(true);
+        setMsg('Thanks for your updated Review');
+        // Message ko 3 seconds ke baad clear karne ke liye setTimeout ka use
+        setTimeout(() => {
+          setMsg('');
+        }, 800);
+      } else {
+        addFeedback(newFeedback);
+        setTimeout(() => {
+          setMsg('');
+        }, 800);
+      }
+
+      setText('');
     }
   };
 
