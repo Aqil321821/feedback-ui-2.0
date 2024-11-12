@@ -10,9 +10,6 @@ import AboutIconLink from './components/AboutIconLink';
 import { FeedbackProvider } from './context/FeedbackContext';
 
 function App() {
-
-  
-
   return (
     <FeedbackProvider>
       <Router>
@@ -25,8 +22,8 @@ function App() {
               element={
                 <>
                   <FeedbackForm />
-                  <FeedbackStats  />
-                  <FeedbackList  />
+                  <FeedbackStats />
+                  <FeedbackList />
                 </>
               }></Route>
             <Route path='/about' element={<AboutPage />} />
